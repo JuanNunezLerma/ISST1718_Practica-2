@@ -1,6 +1,7 @@
 package org.ingservicios.practica_2;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -23,9 +24,9 @@ public class ParkingDTO implements Serializable{
 	private int registro;
 	private int parkingId;
 	private String matricula;
-	private String timeStamp;
+	private Timestamp timeStamp;
 	
-	public ParkingDTO(int registro,int parkingId, String matricula, String timeStamp) {
+	public ParkingDTO(int registro,int parkingId, String matricula, Timestamp timeStamp) {
 		this.registro=registro;
 		this.parkingId=parkingId;
 		this.matricula=matricula;
@@ -60,11 +61,11 @@ public class ParkingDTO implements Serializable{
 		this.matricula = matricula;
 	}
 
-	public String getTimeStamp() {
+	public Timestamp getTimeStamp() {
 		return timeStamp;
 	}
 
-	public void setTimeStamp(String timeStamp) {
+	public void setTimeStamp(Timestamp timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 	

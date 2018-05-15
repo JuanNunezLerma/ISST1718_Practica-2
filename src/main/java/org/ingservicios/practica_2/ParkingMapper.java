@@ -26,7 +26,7 @@ public class ParkingMapper implements RowMapper<ParkingDTO>{
 		matricula.setRegistro(rs.getInt("Registro"));
 		matricula.setParkingId(rs.getInt("ParkingId"));
 		matricula.setMatricula(rs.getString("Matricula"));
-		matricula.setTimeStamp(rs.getString("TimeStamp"));
+		matricula.setTimeStamp(rs.getTimestamp("TimeStamp"));
 		return matricula;
 	}
 }

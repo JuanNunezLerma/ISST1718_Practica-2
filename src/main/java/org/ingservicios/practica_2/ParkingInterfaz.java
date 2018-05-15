@@ -24,7 +24,7 @@ public interface ParkingInterfaz{
 	
 	public void insertaMatricula(ParkingDTO matricula);
 	public List<ParkingDTO> leeMatricula();
-	public ParkingDTO buscaMatricula(String matricula);
+	public ParkingDTO buscaMatricula(String matricula, int parkingId);
 	//public void modificaUsuario(UsuarioDTO UsuarioNew, String email);
 	
 }

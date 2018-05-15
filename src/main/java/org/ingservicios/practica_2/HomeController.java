@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Handles requests for the application home page.
@@ -49,13 +50,27 @@ public class HomeController {
 		return "testparking";
 	}
 	
+	@RequestMapping(value = "/coste", method = RequestMethod.GET)
+	public String coste(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "testcoste";
+	}
+	
 	@RequestMapping(value = "/parking/registroMatricula", method = {RequestMethod.POST,RequestMethod.GET})
 	public ResponseEntity<ParkingDTO> creamatricula (@RequestBody ParkingDTO matricula) {
 		System.out.println("Entrada al servicio");
 		dao.insertaMatricula(matricula);
 		HttpHeaders cabeceras = new HttpHeaders();
 		try {
-			cabeceras.setLocation(new URI("http://localhost:8081/practica_2/parking/"+matricula.getParkingId()+"/"+matricula.getMatricula()));
+			cabeceras.setLocation(new URI("http://localhost:8081/practica_2/parking/registroMatricula/"+matricula.getParkingId()+"/"+matricula.getMatricula()));
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +79,18 @@ public class HomeController {
 			
 		return respuestaHTTP;
 	}
-		
-}
 	
-
+    @RequestMapping(value = "/parking/coste/{matricula}", method = {RequestMethod.POST,RequestMethod.GET})
+	public @ResponseBody double coste (@PathVariable(value="matricula") String matricula) {
+		System.out.println("Entrada al coste");
+		double tarifa=0.0004;
+		Timestamp tiemposalida = dao.buscaMatricula(matricula, 1).getTimeStamp();
+		Timestamp tiempoentrada = dao.buscaMatricula(matricula, 0).getTimeStamp();
+		System.out.println( "Segundos de estancia: "+((tiemposalida.getTime()-tiempoentrada.getTime())/1000) ); 
+		double segundos=((tiemposalida.getTime()-tiempoentrada.getTime())/1000);
+		
+		double coste=segundos*tarifa;
+	
+		return coste;
+	}
+}

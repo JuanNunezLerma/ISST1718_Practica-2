@@ -47,11 +47,11 @@ public class ParkingDAOJdbc implements ParkingInterfaz {
 		return matriculas;
 		}
 	
-	public ParkingDTO buscaMatricula(String matricula){ //Devuelve el usuario buscado o null si no existe
-		String sql = "select * from parking where Matricula = ?";
-		Object[ ] parametros = {matricula}; //Array de objetos
+	public ParkingDTO buscaMatricula(String matricula, int parkingId){ //Devuelve el usuario buscado o null si no existe
+		String sql = "select * from parking where Matricula = ? and parkingId = ?";
+		Object[ ] parametros = {matricula, parkingId}; //Array de objetos
 		ParkingMapper mapper = new ParkingMapper();
-		System.out.println(matricula);
+		System.out.println(matricula+" "+parkingId);
 		List<ParkingDTO> matriculas = this.jdbcTemplate.query(sql, parametros, mapper);
 		if (matriculas.isEmpty()){
 			return null;
